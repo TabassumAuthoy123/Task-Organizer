@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.M. Rahat — Resume</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.45;
+    color: #1a1a1a;
+    background: white;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 18mm 20mm 15mm 20mm;
+  }
+  
+  /* Header */
+  .header {
+    text-align: center;
+    border-bottom: 2.5px solid #1a3a5c;
+    padding-bottom: 10px;
+    margin-bottom: 14px;
+  }
+  
+  .header h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a3a5c;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  
+  .header .subtitle {
+    font-size: 11pt;
+    font-weight: 500;
+    color: #2d5986;
+    margin-bottom: 6px;
+  }
+  
+  .header .contact {
+    font-size: 9pt;
+    color: #555;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .header .contact span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+  
+  .header .contact a {
+    color: #2d5986;
+    text-decoration: none;
+  }
+  
+  /* Sections */
+  .section {
+    margin-bottom: 12px;
+  }
+  
+  .section-title {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1.5px solid #d0d8e0;
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+  }
+  
+  /* Profile */
+  .profile-text {
+    font-size: 10pt;
+    color: #333;
+    text-align: justify;
+  }
+  
+  /* Experience */
+  .exp-item {
+    margin-bottom: 10px;
+  }
+  
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2px;
+  }
+  
+  .exp-title {
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: #1a1a1a;
+  }
+  
+  .exp-dates {
+    font-size: 9.5pt;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .exp-company {
+    font-weight: 500;
+    font-size: 10pt;
+    color: #2d5986;
+    margin-bottom: 3px;
+  }
+  
+  .exp-location {
+    font-size: 9pt;
+    color: #777;
+    font-style: italic;
+  }
+  
+  .exp-bullets {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .exp-bullets li {
+    font-size: 10pt;
+    color: #333;
+    padding-left: 14px;
+    position: relative;
+    margin-bottom: 2px;
+  }
+  
+  .exp-bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #2d5986;
+    font-weight: 700;
+  }
+  
+  /* Education */
+  .edu-item {
+    margin-bottom: 6px;
+  }
+  
+  .edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  
+  .edu-degree {
+    font-weight: 700;
+    font-size: 10.5pt;
+  }
+  
+  .edu-year {
+    font-size: 9.5pt;
+    color: #666;
+  }
+  
+  .edu-school {
+    font-size: 10pt;
+    color: #2d5986;
+  }
+  
+  /* Skills Grid */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 20px;
+    font-size: 10pt;
+  }
+  
+  .skill-category {
+    font-weight: 600;
+    color: #1a3a5c;
+    display: inline;
+  }
+  
+  .skill-items {
+    color: #333;
+  }
+  
+  /* Project */
+  .project-title {
+    font-weight: 700;
+    font-size: 10.5pt;
+  }
+  
+  .project-tech {
+    font-size: 9pt;
+    color: #2d5986;
+    font-style: italic;
+  }
+  
+  /* Print */
+  @media print {
+    body {
+      padding: 15mm 18mm 12mm 18mm;
+    }
+    a { color: #1a1a1a !important; }
+  }
+</style>
+</head>
+<body>
+  <header class="header">
+    <h1>S. M. Rahat</h1>
+    <div class="subtitle">Apparel Merchandiser — Marks & Spencer Account | BUTEX Textile Engineer</div>
+    <div class="contact">
+      <span>📞 [Your Phone]</span>
+      <span>✉️ [Your Email]</span>
+      <span>📍 Dhaka, Bangladesh</span>
+      <span>🔗 <a href="https://www.linkedin.com/in/rahat07/">linkedin.com/in/rahat07</a></span>
+      <span>🌐 <a href="https://smrahat-hub.github.io">smrahat-hub.github.io</a></span>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Professional Profile</h2>
+    <p class="profile-text">
+      BUTEX-trained Textile Engineer and apparel merchandiser with hands-on experience managing the Marks & Spencer account at Interstoff Apparels. Progressed from Management Trainee to Assistant Merchandiser through demonstrated competence in sample development, costing & consumption calculation, Time & Action (TNA) planning, and buyer compliance. Proficient in FlexPLM, AlgoERP, and M&S eDiTRAC systems. Seeking a Merchandiser/Senior Merchandiser role in a Dhaka-based buying house or sourcing office where I can drive end-to-end order execution and contribute to business growth.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Professional Experience</h2>
+    
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-title">Assistant Merchandiser</span>
+        <span class="exp-dates">Jun 2025 — Present</span>
+      </div>
+      <div class="exp-company">Interstoff Apparels Ltd. — Marks & Spencer Account</div>
+      <div class="exp-location">Chandra, Kaliakoir, Gazipur (On-site)</div>
+      <ul class="exp-bullets">
+        <li>Manage end-to-end sample development lifecycle — from buyer tech-pack receipt through lab dip, fit sample, size set, to PP sample — for M&S seasonal ranges</li>
+        <li>Prepare and negotiate garment costing (fabric, trims, CM, overhead) targeting buyer price points while maintaining factory margin</li>
+        <li>Develop and monitor Time & Action (TNA) plans to ensure on-time delivery across concurrent styles</li>
+        <li>Source fabrics and trims per M&S technical specifications, coordinating with 10+ domestic suppliers</li>
+        <li>Operate FlexPLM for product lifecycle tracking, AlgoERP for production planning, and M&S eDiTRAC for compliance documentation</li>
+        <li>Coordinate between buyer product development, technical, and factory production teams on quality compliance</li>
+      </ul>
+    </div>
+    
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-title">Management Trainee — Marketing & Merchandising</span>
+        <span class="exp-dates">Dec 2024 — May 2025</span>
+      </div>
+      <div class="exp-company">Interstoff Apparels Ltd.</div>
+      <ul class="exp-bullets">
+        <li>Completed intensive 6-month rotation across merchandising, sourcing, and quality departments</li>
+        <li>Assisted senior merchandisers with costing sheets, consumption calculations, and buyer correspondence</li>
+        <li>Achieved early promotion to Assistant Merchandiser based on performance evaluation</li>
+      </ul>
+    </div>
+    
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="exp-title">Internship Trainee — Production & Quality</span>
+        <span class="exp-dates">Jan 2024 — Mar 2024</span>
+      </div>
+      <div class="exp-company">Esquire Knit Composite Ltd.</div>
+      <ul class="exp-bullets">
+        <li>Observed knit garment production from yarn stage to finished goods across spinning, knitting, dyeing, and sewing</li>
+        <li>Assisted quality team with AQL inspections, fabric GSM testing, and shrinkage evaluation</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Education</h2>
+    <div class="edu-item">
+      <div class="edu-header">
+        <span class="edu-degree">B.Sc. in Textile Engineering</span>
+        <span class="edu-year">Class of 2024</span>
+      </div>
+      <div class="edu-school">Bangladesh University of Textiles (BUTEX), Dhaka</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Key Skills</h2>
+    <div class="skills-grid">
+      <div><span class="skill-category">Merchandising: </span><span class="skill-items">Garment Costing, Consumption, TNA, Sample Development, Sourcing, Order Execution</span></div>
+      <div><span class="skill-category">Software: </span><span class="skill-items">FlexPLM, AlgoERP, M&S eDiTRAC, MS Excel (Advanced), PowerPoint</span></div>
+      <div><span class="skill-category">Technical: </span><span class="skill-items">Fabric Analysis, Quality Compliance, AQL, Shrinkage Testing, GSM</span></div>
+      <div><span class="skill-category">Soft Skills: </span><span class="skill-items">Buyer Communication, Cross-team Coordination, Time Management, English (Fluent)</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">Project</h2>
+    <div class="exp-item">
+      <div class="exp-header">
+        <span class="project-title">Fabric Fault Detection using Machine Learning</span>
+        <span class="project-tech">Python, CNN, OpenCV</span>
+      </div>
+      <ul class="exp-bullets">
+        <li>Built a convolutional neural network to classify 6 common fabric defect types from camera images</li>
+        <li>Achieved 92%+ accuracy on test dataset — published on GitHub as open-source</li>
+      </ul>
+    </div>
+  </section>
+</body>
+</html>

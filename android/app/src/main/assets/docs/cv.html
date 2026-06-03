@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S.M. Rahat — Curriculum Vitae</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  @page { size: A4; margin: 0; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #222;
+    background: white;
+    max-width: 210mm;
+    margin: 0 auto;
+  }
+  
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    display: grid;
+    grid-template-columns: 72mm 1fr;
+    page-break-after: always;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    background: #1a3a5c;
+    color: white;
+    padding: 20mm 8mm 15mm 8mm;
+  }
+  
+  .sidebar h3 {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #8bb8e0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  
+  .sidebar h3:first-of-type {
+    margin-top: 0;
+  }
+  
+  .photo-frame {
+    width: 56mm;
+    height: 56mm;
+    border-radius: 50%;
+    border: 3px solid #4CAF50;
+    overflow: hidden;
+    margin: 0 auto 12px auto;
+    background: #2a4a6c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8pt;
+    color: #8bb8e0;
+    text-align: center;
+  }
+  
+  .contact-list {
+    list-style: none;
+    font-size: 9pt;
+  }
+  
+  .contact-list li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    word-break: break-all;
+  }
+  
+  .contact-list .icon {
+    font-size: 10pt;
+    min-width: 16px;
+    text-align: center;
+  }
+  
+  .contact-list a {
+    color: #b3d4f0;
+    text-decoration: none;
+  }
+  
+  .skill-list {
+    list-style: none;
+    font-size: 9pt;
+  }
+  
+  .skill-list li {
+    margin-bottom: 5px;
+    padding-left: 10px;
+    position: relative;
+  }
+  
+  .skill-list li::before {
+    content: '●';
+    position: absolute;
+    left: 0;
+    color: #4CAF50;
+    font-size: 6pt;
+    top: 3px;
+  }
+  
+  .tool-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    color: #e0e0e0;
+    font-size: 8pt;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin: 2px 2px 2px 0;
+  }
+  
+  .strength-item {
+    font-size: 9pt;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    position: relative;
+  }
+  
+  .strength-item::before {
+    content: '◆';
+    position: absolute;
+    left: 0;
+    color: #f59e0b;
+    font-size: 6pt;
+    top: 3px;
+  }
+  
+  .lang-item {
+    font-size: 9pt;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .lang-level {
+    color: #8bb8e0;
+    font-size: 8pt;
+  }
+  
+  /* Main Content */
+  .main {
+    padding: 20mm 15mm 15mm 12mm;
+  }
+  
+  .main h1 {
+    font-size: 20pt;
+    font-weight: 700;
+    color: #1a3a5c;
+    margin-bottom: 2px;
+  }
+  
+  .main .title-sub {
+    font-size: 11pt;
+    font-weight: 500;
+    color: #2d5986;
+    margin-bottom: 12px;
+  }
+  
+  .main h2 {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #1a3a5c;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 2px solid #1a3a5c;
+    padding-bottom: 3px;
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  
+  .main h2:first-of-type {
+    margin-top: 0;
+  }
+  
+  .profile-text {
+    font-size: 9.5pt;
+    color: #333;
+    text-align: justify;
+    margin-bottom: 4px;
+  }
+  
+  .highlight-box {
+    background: #f0f5fa;
+    border-left: 3px solid #1a3a5c;
+    padding: 6px 10px;
+    font-size: 9pt;
+    color: #444;
+    margin-bottom: 8px;
+  }
+  
+  .highlight-box strong {
+    color: #1a3a5c;
+  }
+  
+  /* Experience */
+  .exp-item {
+    margin-bottom: 10px;
+  }
+  
+  .exp-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  
+  .exp-title {
+    font-weight: 700;
+    font-size: 10pt;
+    color: #1a1a1a;
+  }
+  
+  .exp-dates {
+    font-size: 9pt;
+    color: #666;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  
+  .exp-company {
+    font-weight: 500;
+    font-size: 9.5pt;
+    color: #2d5986;
+  }
+  
+  .exp-loc {
+    font-size: 8.5pt;
+    color: #888;
+    font-style: italic;
+    margin-bottom: 3px;
+  }
+  
+  .bullets {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .bullets li {
+    font-size: 9.5pt;
+    color: #333;
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 2px;
+  }
+  
+  .bullets li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #2d5986;
+    font-weight: 700;
+  }
+  
+  /* Education */
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1px;
+  }
+  
+  .edu-degree {
+    font-weight: 700;
+    font-size: 10pt;
+  }
+  
+  .edu-year {
+    font-size: 9pt;
+    color: #666;
+  }
+  
+  .edu-school {
+    font-size: 9.5pt;
+    color: #2d5986;
+    margin-bottom: 3px;
+  }
+  
+  .coursework {
+    font-size: 8.5pt;
+    color: #555;
+    font-style: italic;
+  }
+  
+  /* Project */
+  .project-tech {
+    font-size: 8.5pt;
+    color: #2d5986;
+    font-style: italic;
+  }
+  
+  /* Personal */
+  .personal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 16px;
+    font-size: 9pt;
+  }
+  
+  .personal-grid .label {
+    font-weight: 600;
+    color: #1a3a5c;
+  }
+  
+  /* References */
+  .ref-note {
+    font-size: 9pt;
+    color: #666;
+    font-style: italic;
+  }
+  
+  /* Page break */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  @media print {
+    body { max-width: none; }
+    .page { min-height: 297mm; }
+    a { color: inherit !important; }
+  }
+</style>
+</head>
+<body>
+  <!-- PAGE 1 -->
+  <div class="page">
+    <aside class="sidebar">
+      <div class="photo-frame">
+        [Photo Here]<br>
+        <small>Replace with<br>professional photo</small>
+      </div>
+      
+      <h3>Contact</h3>
+      <ul class="contact-list">
+        <li><span class="icon">📞</span> [Your Phone]</li>
+        <li><span class="icon">✉️</span> [Your Email]</li>
+        <li><span class="icon">📍</span> Dhaka, Bangladesh</li>
+        <li><span class="icon">🔗</span> <a href="https://www.linkedin.com/in/rahat07/">linkedin.com/in/rahat07</a></li>
+        <li><span class="icon">🌐</span> <a href="https://smrahat-hub.github.io">smrahat-hub.github.io</a></li>
+      </ul>
+      
+      <h3>Core Skills</h3>
+      <ul class="skill-list">
+        <li>Garment Costing & Consumption</li>
+        <li>Sample Development (Lab Dip → PP)</li>
+        <li>Time & Action (TNA) Planning</li>
+        <li>Fabric & Trims Sourcing</li>
+        <li>Quality Compliance & AQL</li>
+        <li>Buyer Communication</li>
+        <li>Order Execution (End-to-End)</li>
+        <li>Product Development</li>
+      </ul>
+      
+      <h3>Tools & Systems</h3>
+      <div>
+        <span class="tool-tag">FlexPLM</span>
+        <span class="tool-tag">AlgoERP</span>
+        <span class="tool-tag">M&S eDiTRAC</span>
+        <span class="tool-tag">MS Excel</span>
+        <span class="tool-tag">PowerPoint</span>
+        <span class="tool-tag">Python</span>
+        <span class="tool-tag">OpenCV</span>
+      </div>
+      
+      <h3>Languages</h3>
+      <div class="lang-item">Bengali <span class="lang-level">Native</span></div>
+      <div class="lang-item">English <span class="lang-level">Fluent</span></div>
+      
+      <h3>Strengths</h3>
+      <div class="strength-item">M&S buyer standards expertise</div>
+      <div class="strength-item">Cross-team coordination</div>
+      <div class="strength-item">Data-driven problem solving</div>
+      <div class="strength-item">Multi-style concurrent management</div>
+      <div class="strength-item">Rapid learning & adaptability</div>
+    </aside>
+    
+    <main class="main">
+      <h1>S. M. Rahat</h1>
+      <div class="title-sub">Apparel Merchandiser — Marks & Spencer Account | BUTEX Textile Engineer</div>
+      
+      <h2>Professional Profile</h2>
+      <p class="profile-text">
+        BUTEX-trained Textile Engineer and apparel merchandiser with demonstrated ability to manage the full product development cycle on international buyer accounts. Currently handling the Marks & Spencer account at Interstoff Apparels, where I was promoted from Management Trainee to Assistant Merchandiser within 6 months. My expertise spans sample development, garment costing & consumption, TNA planning, fabric/trims sourcing, and quality compliance across knit garment ranges.
+      </p>
+      <div class="highlight-box">
+        <strong>Career Highlights:</strong> Promoted MTO → Asst. Merchandiser in 6 months ● M&S account: complex compliance + tech-pack execution ● BUTEX B.Sc. Textile Engineering ● ML-based fabric fault detection project (92%+ accuracy) ● FlexPLM + AlgoERP + eDiTRAC certified user
+      </div>
+      
+      <h2>Professional Experience</h2>
+      
+      <div class="exp-item">
+        <div class="exp-row">
+          <span class="exp-title">Assistant Merchandiser</span>
+          <span class="exp-dates">Jun 2025 — Present</span>
+        </div>
+        <div class="exp-company">Interstoff Apparels Ltd. — Marks & Spencer Account</div>
+        <div class="exp-loc">Chandra, Kaliakoir, Gazipur (On-site)</div>
+        <ul class="bullets">
+          <li>Lead sample development lifecycle from buyer tech-pack receipt through lab dip approval, fit sample, size set, and PP sample for M&S seasonal ranges</li>
+          <li>Prepare and negotiate garment costing (fabric, trims, CM, overhead, profit) targeting buyer price points while protecting factory margin</li>
+          <li>Build and monitor Time & Action (TNA) plans to ensure on-time delivery across 15+ concurrent styles per season</li>
+          <li>Source fabrics and trims per M&S technical specifications, coordinating with 10+ domestic mills and accessory suppliers</li>
+          <li>Operate FlexPLM for product lifecycle management, AlgoERP for production planning, and M&S eDiTRAC for compliance documentation</li>
+          <li>Bridge communication between M&S product development team, Interstoff technical staff, and factory production floor</li>
+          <li>Ensure all deliverables meet M&S Plan A sustainability and ethical sourcing requirements</li>
+        </ul>
+      </div>
+      
+      <div class="exp-item">
+        <div class="exp-row">
+          <span class="exp-title">Management Trainee — Marketing & Merchandising</span>
+          <span class="exp-dates">Dec 2024 — May 2025</span>
+        </div>
+        <div class="exp-company">Interstoff Apparels Ltd.</div>
+        <div class="exp-loc">Chandra, Kaliakoir, Gazipur</div>
+        <ul class="bullets">
+          <li>Completed intensive 6-month rotation across merchandising, sourcing, quality, and production planning departments</li>
+          <li>Assisted senior merchandisers with costing sheets, BOM preparation, consumption calculations, and buyer email correspondence</li>
+          <li>Prepared shipment documentation and coordinated with freight forwarders for on-time dispatch</li>
+          <li>Achieved early promotion to Assistant Merchandiser based on exceptional performance evaluation scores</li>
+        </ul>
+      </div>
+      
+      <div class="exp-item">
+        <div class="exp-row">
+          <span class="exp-title">Internship Trainee — Production & Quality</span>
+          <span class="exp-dates">Jan 2024 — Mar 2024</span>
+        </div>
+        <div class="exp-company">Esquire Knit Composite Ltd.</div>
+        <div class="exp-loc">Gazipur</div>
+        <ul class="bullets">
+          <li>Observed complete knit garment production from yarn stage through spinning, knitting, dyeing, cutting, sewing, and finishing</li>
+          <li>Assisted quality team with AQL inspections, fabric GSM testing, shrinkage and colorfastness evaluation</li>
+          <li>Documented production processes for university thesis research</li>
+        </ul>
+      </div>
+    </main>
+  </div>
+  
+  <!-- PAGE 2 -->
+  <div class="page page-break">
+    <aside class="sidebar" style="padding-top: 15mm;">
+      <h3>Certifications</h3>
+      <ul class="skill-list">
+        <li>FlexPLM User (On-the-job)</li>
+        <li>AlgoERP User (On-the-job)</li>
+        <li>M&S eDiTRAC Compliance</li>
+      </ul>
+      
+      <h3>Interests</h3>
+      <ul class="skill-list">
+        <li>Sustainable Fashion & Circular Economy</li>
+        <li>AI/ML in Textile Manufacturing</li>
+        <li>Data-Driven Merchandising</li>
+        <li>Industry 4.0 for Garments</li>
+      </ul>
+      
+      <h3>Availability</h3>
+      <div style="font-size: 9pt; color: #b3d4f0;">
+        Available to join from July 2025.<br>
+        Notice period: Negotiable.
+      </div>
+    </aside>
+    
+    <main class="main" style="padding-top: 15mm;">
+      <h2>Education</h2>
+      <div class="edu-row">
+        <span class="edu-degree">B.Sc. in Textile Engineering</span>
+        <span class="edu-year">Class of 2024</span>
+      </div>
+      <div class="edu-school">Bangladesh University of Textiles (BUTEX), Dhaka</div>
+      <div class="coursework">
+        Relevant Coursework: Textile Testing & Quality Control, Fabric Manufacturing, Wet Processing, Apparel Merchandising, Textile Chemistry, Yarn Engineering, Garment Finishing
+      </div>
+      
+      <h2 style="margin-top: 16px;">Academic Project</h2>
+      <div class="exp-item">
+        <div class="exp-row">
+          <span class="exp-title">Fabric Fault Detection using Machine Learning</span>
+          <span class="project-tech">Python, CNN, OpenCV, TensorFlow</span>
+        </div>
+        <ul class="bullets">
+          <li>Designed and trained a convolutional neural network (CNN) to classify 6 common fabric defect types from industrial camera images</li>
+          <li>Achieved 92%+ classification accuracy on holdout test dataset</li>
+          <li>Published as open-source on GitHub — demonstrates data-driven approach to quality improvement</li>
+          <li>Presented findings at BUTEX thesis defense with distinction</li>
+        </ul>
+      </div>
+      
+      <h2 style="margin-top: 16px;">Training & Development</h2>
+      <ul class="bullets">
+        <li>M&S Supplier Standards & Plan A Sustainability — In-house training at Interstoff (2025)</li>
+        <li>Garment Costing & Consumption Masterclass — Industry workshop (2024)</li>
+        <li>Python for Data Analysis — Self-directed learning (ongoing)</li>
+      </ul>
+      
+      <h2 style="margin-top: 16px;">Personal Details</h2>
+      <div class="personal-grid">
+        <div><span class="label">Full Name:</span> S. M. Rahat</div>
+        <div><span class="label">Nationality:</span> Bangladeshi</div>
+        <div><span class="label">Date of Birth:</span> [DD/MM/YYYY]</div>
+        <div><span class="label">Marital Status:</span> [Single/Married]</div>
+        <div><span class="label">Blood Group:</span> [Blood Group]</div>
+        <div><span class="label">NID:</span> [NID Number]</div>
+      </div>
+      
+      <h2 style="margin-top: 16px;">References</h2>
+      <p class="ref-note">Available upon request. Can provide references from Interstoff Apparels management and BUTEX faculty.</p>
+    </main>
+  </div>
+</body>
+</html>
