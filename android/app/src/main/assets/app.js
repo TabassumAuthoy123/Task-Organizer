@@ -1,44 +1,162 @@
 /* ═══════════════════════════════════════════════════════════════════════════════
- *  app.js — Rahat Career Hub Interactive Logic
- *  All localStorage, Kanban drag-drop, checklist, search/filter, rendering
+ *  app.js — Rahat Career Hub Interactive Logic (Full-Stack Relational DB Version)
+ *  SQLite Database Syncing, REST API integration, SQL Query Runner
  * ═══════════════════════════════════════════════════════════════════════════════ */
+
+// ── API Configuration ────────────────────────────────────────────────────────
+let API_BASE = window.location.origin;
+if (API_BASE.startsWith('file://') || API_BASE.includes('android_asset')) {
+  // Graceful fallback for Android WebView running locally to point to local host emulator
+  API_BASE = 'http://10.0.2.2:3000';
+}
+
+function getHeaders() {
+  const token = localStorage.getItem('rahat_jwt_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : ''
+  };
+}
 
 // ── Storage Keys ────────────────────────────────────────────────────────────
 const STORAGE = {
-  TRACKED_JOBS: 'rahat_tracked_jobs',
-  LINKEDIN_STATE: 'rahat_linkedin_checklist',
-  ACTION_PLAN_STATE: 'rahat_action_plan',
   ACTIVE_SECTION: 'rahat_active_section'
 };
 
-// ── State ───────────────────────────────────────────────────────────────────
-let trackedJobs = JSON.parse(localStorage.getItem(STORAGE.TRACKED_JOBS) || '[]');
-let linkedinState = JSON.parse(localStorage.getItem(STORAGE.LINKEDIN_STATE) || '{}');
-let actionPlanState = JSON.parse(localStorage.getItem(STORAGE.ACTION_PLAN_STATE) || '{}');
+// ── State (Dynamic data synced with SQLite database) ────────────────────────
+let trackedJobs = [];
+let linkedinState = {};
+let actionPlanState = {};
 let currentInterviewFilter = 'all';
 let currentInterviewSearch = '';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// INITIALIZATION
+// INITIALIZATION & AUTHENTICATION
 // ═══════════════════════════════════════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initNavigation();
   initSidebar();
-  renderDashboard();
-  renderKanban();
-  renderLinks();
-  renderLinkedInChecklist();
-  renderInterviewQuestions();
-  renderSalary();
-  renderColdMessages();
-  renderActionPlan();
-  renderPhotoGuide();
-  updateAllStats();
+  
+  // Verify authentication on load
+  const token = localStorage.getItem('rahat_jwt_token');
+  if (token) {
+    const authenticated = await verifyAuthToken();
+    if (authenticated) {
+      document.getElementById('loginModal').classList.remove('active');
+      await loadAllDataFromAPI();
+    } else {
+      showLoginModal();
+    }
+  } else {
+    showLoginModal();
+  }
 
   // Restore last active section
   const lastSection = localStorage.getItem(STORAGE.ACTIVE_SECTION) || 'dashboard';
   navigateTo(lastSection);
 });
+
+async function verifyAuthToken() {
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/me`, {
+      method: 'GET',
+      headers: getHeaders()
+    });
+    return res.ok;
+  } catch (e) {
+    console.error('API Server offline. Falling back to local/static demo modes.', e);
+    showToast('Backend Server offline! Operating in Demo Mode.', 'info');
+    // Seed dummy local values for offline demo so the app does not break
+    trackedJobs = [
+      { id: 'offline-1', title: 'Senior Merchandiser (Demo)', company: 'Interstoff Apparels', location: 'Gazipur', salary: '70,000 BDT', url: '', source: 'Demo Mode', deadline: '', notes: 'Running in offline local mode.', stage: 'saved' }
+    ];
+    linkedinState = {};
+    actionPlanState = {};
+    return false;
+  }
+}
+
+function showLoginModal() {
+  document.getElementById('loginModal').classList.add('active');
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('loginUsername').value;
+  const password = document.getElementById('loginPassword').value;
+  const errorDiv = document.getElementById('loginError');
+  errorDiv.style.display = 'none';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Login failed.');
+    }
+
+    localStorage.setItem('rahat_jwt_token', data.token);
+    document.getElementById('loginModal').classList.remove('active');
+    showToast('Logged in successfully!', 'success');
+    
+    // Load database records and refresh
+    await loadAllDataFromAPI();
+  } catch (err) {
+    errorDiv.textContent = err.message;
+    errorDiv.style.display = 'block';
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('rahat_jwt_token');
+  showLoginModal();
+  showToast('Logged out.', 'info');
+  // Clear states
+  trackedJobs = [];
+  linkedinState = {};
+  actionPlanState = {};
+  renderDashboard();
+  renderKanban();
+  renderLinkedInChecklist();
+  renderActionPlan();
+  updateAllStats();
+}
+
+async function loadAllDataFromAPI() {
+  try {
+    const [jobsRes, linkedinRes, actionPlanRes] = await Promise.all([
+      fetch(`${API_BASE}/api/jobs`, { headers: getHeaders() }),
+      fetch(`${API_BASE}/api/linkedin`, { headers: getHeaders() }),
+      fetch(`${API_BASE}/api/actionplan`, { headers: getHeaders() })
+    ]);
+
+    if (jobsRes.ok) trackedJobs = await jobsRes.json();
+    if (linkedinRes.ok) linkedinState = await linkedinRes.json();
+    if (actionPlanRes.ok) actionPlanState = await actionPlanRes.json();
+
+    // Render components with DB values
+    renderDashboard();
+    renderKanban();
+    renderLinks();
+    renderLinkedInChecklist();
+    renderInterviewQuestions();
+    renderSalary();
+    renderColdMessages();
+    renderActionPlan();
+    renderPhotoGuide();
+    updateAllStats();
+    
+    // Load schema browser data for the DB Console tab
+    fetchDatabaseSchema();
+  } catch (e) {
+    console.error('Error fetching data from API:', e);
+    showToast('Error syncing with SQLite database.', 'error');
+  }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // NAVIGATION
@@ -133,7 +251,7 @@ function createJobCard(job, isPreview = false) {
   `;
 }
 
-function quickSaveJob(jobId) {
+async function quickSaveJob(jobId) {
   const job = LIVE_JOBS.find(j => j.id === jobId);
   if (!job) return;
   
@@ -143,7 +261,7 @@ function quickSaveJob(jobId) {
     return;
   }
   
-  trackedJobs.push({
+  const jobData = {
     id: `live-${job.id}`,
     title: job.title,
     company: job.company,
@@ -153,19 +271,29 @@ function quickSaveJob(jobId) {
     source: job.source,
     deadline: '',
     notes: `Match level: ${job.matchLevel}. Experience: ${job.experience}.`,
-    stage: 'saved',
-    createdAt: new Date().toISOString()
-  });
-  
-  saveTrackedJobs();
-  renderKanban();
-  updateAllStats();
-  showToast(`Saved "${job.title}" at ${job.company}!`, 'success');
+    stage: 'saved'
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/api/jobs`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(jobData)
+    });
+
+    if (!res.ok) throw new Error('Failed to save job');
+
+    trackedJobs.push({ ...jobData, createdAt: new Date().toISOString() });
+    renderKanban();
+    updateAllStats();
+    showToast(`Saved "${job.title}" at ${job.company}!`, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('Error saving job to database.', 'error');
+  }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// KANBAN JOB TRACKER
-// ═══════════════════════════════════════════════════════════════════════════════
+// ── KANBAN JOB TRACKER ───────────────────────────────────────────────────────
 function renderKanban() {
   const stages = ['saved', 'applied', 'interview', 'offer', 'rejected'];
   
@@ -236,27 +364,49 @@ function setupDropZone(container, stage) {
   });
 }
 
-function moveJob(jobId, newStage) {
+async function moveJob(jobId, newStage) {
   const job = trackedJobs.find(j => j.id === jobId);
   if (job && job.stage !== newStage) {
+    const oldStage = job.stage;
     job.stage = newStage;
-    saveTrackedJobs();
-    renderKanban();
-    updateAllStats();
-    showToast(`Moved to ${newStage.charAt(0).toUpperCase() + newStage.slice(1)}!`, 'success');
+
+    try {
+      const res = await fetch(`${API_BASE}/api/jobs/${jobId}`, {
+        method: 'PUT',
+        headers: getHeaders(),
+        body: JSON.stringify({ stage: newStage })
+      });
+
+      if (!res.ok) throw new Error('Failed to update stage');
+
+      renderKanban();
+      updateAllStats();
+      showToast(`Moved to ${newStage.charAt(0).toUpperCase() + newStage.slice(1)}!`, 'success');
+    } catch (err) {
+      console.error(err);
+      job.stage = oldStage; // rollback
+      showToast('Error updating job stage on database.', 'error');
+    }
   }
 }
 
-function deleteTrackedJob(jobId) {
-  trackedJobs = trackedJobs.filter(j => j.id !== jobId);
-  saveTrackedJobs();
-  renderKanban();
-  updateAllStats();
-  showToast('Job removed.', 'info');
-}
+async function deleteTrackedJob(jobId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/jobs/${jobId}`, {
+      method: 'DELETE',
+      headers: getHeaders()
+    });
 
-function saveTrackedJobs() {
-  localStorage.setItem(STORAGE.TRACKED_JOBS, JSON.stringify(trackedJobs));
+    if (!res.ok) throw new Error('Failed to delete job');
+
+    trackedJobs = trackedJobs.filter(j => j.id !== jobId);
+    renderKanban();
+    updateAllStats();
+    showToast('Job removed from database.', 'info');
+  } catch (err) {
+    console.error(err);
+    showToast('Error removing job from database.', 'error');
+  }
 }
 
 // Add Job Modal
@@ -269,7 +419,7 @@ function closeAddJobModal() {
   document.getElementById('addJobForm').reset();
 }
 
-function handleAddJob(e) {
+async function handleAddJob(e) {
   e.preventDefault();
   const job = {
     id: 'custom-' + Date.now(),
@@ -281,24 +431,37 @@ function handleAddJob(e) {
     source: document.getElementById('jobSource').value,
     deadline: document.getElementById('jobDeadline').value,
     notes: document.getElementById('jobNotes').value,
-    stage: document.getElementById('jobStage').value,
-    createdAt: new Date().toISOString()
+    stage: document.getElementById('jobStage').value
   };
-  
-  trackedJobs.push(job);
-  saveTrackedJobs();
-  renderKanban();
-  updateAllStats();
-  closeAddJobModal();
-  showToast(`Added "${job.title}" at ${job.company}!`, 'success');
+
+  try {
+    const res = await fetch(`${API_BASE}/api/jobs`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(job)
+    });
+
+    if (!res.ok) throw new Error('Failed to add job');
+
+    trackedJobs.push({ ...job, createdAt: new Date().toISOString() });
+    renderKanban();
+    updateAllStats();
+    closeAddJobModal();
+    showToast(`Added "${job.title}" at ${job.company}!`, 'success');
+  } catch (err) {
+    console.error(err);
+    showToast('Error saving new job to database.', 'error');
+  }
 }
 
-function importLiveJobs() {
+async function importLiveJobs() {
   let imported = 0;
-  LIVE_JOBS.forEach(job => {
+  const promises = [];
+  
+  for (const job of LIVE_JOBS) {
     if (['perfect', 'target', 'good'].includes(job.matchLevel)) {
       if (!trackedJobs.find(j => j.id === `live-${job.id}`)) {
-        trackedJobs.push({
+        const jobData = {
           id: `live-${job.id}`,
           title: job.title,
           company: job.company,
@@ -308,19 +471,31 @@ function importLiveJobs() {
           source: job.source,
           deadline: '',
           notes: `Match: ${job.matchLevel}. Exp: ${job.experience}.`,
-          stage: 'saved',
-          createdAt: new Date().toISOString()
+          stage: 'saved'
+        };
+        
+        const p = fetch(`${API_BASE}/api/jobs`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify(jobData)
         });
+        promises.push(p);
+        trackedJobs.push({ ...jobData, createdAt: new Date().toISOString() });
         imported++;
       }
     }
-  });
+  }
   
   if (imported > 0) {
-    saveTrackedJobs();
-    renderKanban();
-    updateAllStats();
-    showToast(`Imported ${imported} matching jobs!`, 'success');
+    try {
+      await Promise.all(promises);
+      renderKanban();
+      updateAllStats();
+      showToast(`Imported ${imported} matching jobs to database!`, 'success');
+    } catch (err) {
+      console.error('Error importing jobs:', err);
+      showToast('Error syncing imported jobs with server.', 'error');
+    }
   } else {
     showToast('All matching jobs already imported.', 'info');
   }
@@ -442,11 +617,26 @@ function renderLinkedInChecklist() {
   updateLinkedInProgress();
 }
 
-function toggleLinkedInItem(itemId) {
-  linkedinState[itemId] = !linkedinState[itemId];
-  localStorage.setItem(STORAGE.LINKEDIN_STATE, JSON.stringify(linkedinState));
-  renderLinkedInChecklist();
-  updateAllStats();
+async function toggleLinkedInItem(itemId) {
+  const isDone = !linkedinState[itemId];
+  linkedinState[itemId] = isDone;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/linkedin/toggle`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ itemId, done: isDone })
+    });
+
+    if (!res.ok) throw new Error('Failed to toggle checklist item');
+    
+    renderLinkedInChecklist();
+    updateAllStats();
+  } catch (err) {
+    console.error(err);
+    linkedinState[itemId] = !isDone; // rollback
+    showToast('Error saving checklist state on database.', 'error');
+  }
 }
 
 function toggleExpand(elementId) {
@@ -693,11 +883,26 @@ function renderActionPlan() {
   updateActionPlanProgress();
 }
 
-function toggleActionTask(key) {
-  actionPlanState[key] = !actionPlanState[key];
-  localStorage.setItem(STORAGE.ACTION_PLAN_STATE, JSON.stringify(actionPlanState));
-  renderActionPlan();
-  updateAllStats();
+async function toggleActionTask(key) {
+  const isDone = !actionPlanState[key];
+  actionPlanState[key] = isDone;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/actionplan/toggle`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ taskKey: key, done: isDone })
+    });
+
+    if (!res.ok) throw new Error('Failed to toggle action task');
+
+    renderActionPlan();
+    updateAllStats();
+  } catch (err) {
+    console.error(err);
+    actionPlanState[key] = !isDone; // rollback
+    showToast('Error saving action plan state on database.', 'error');
+  }
 }
 
 function toggleWeek(weekId) {
@@ -779,6 +984,144 @@ function updateAllStats() {
     });
   });
   document.getElementById('stat-plan').textContent = Math.round((apDone / apTotal) * 100) + '%';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DATABASE CONSOLE
+// ═══════════════════════════════════════════════════════════════════════════════
+async function fetchDatabaseSchema() {
+  const container = document.getElementById('dbSchemaContainer');
+  if (!container) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/db/schema`, { headers: getHeaders() });
+    if (!res.ok) return;
+
+    const schema = await res.json();
+    container.innerHTML = Object.entries(schema).map(([tableName, tableData]) => {
+      const columnsHtml = tableData.columns.map(col => `
+        <li>
+          <span class="schema-col-name">${col.name}</span>
+          <span class="schema-col-type">${col.type} ${col.pk ? '<span class="db-badge badge-high">PK</span>' : ''}</span>
+        </li>
+      `).join('');
+
+      return `
+        <div class="schema-table-card">
+          <div class="schema-table-name">
+            <span>📁 ${tableName}</span>
+            <span class="db-badge badge-purple">${tableData.count} rows</span>
+          </div>
+          <ul class="schema-table-cols">
+            ${columnsHtml}
+          </ul>
+        </div>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error('Error fetching database schema:', err);
+  }
+}
+
+async function resetDatabaseSchema() {
+  if (!confirm('WARNING: This will drop all jobs and checklists and restore the database to seed data. Continue?')) {
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/db/reset`, {
+      method: 'POST',
+      headers: getHeaders()
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Reset failed.');
+
+    showToast('Database reset and re-seeded successfully!', 'success');
+    await loadAllDataFromAPI();
+  } catch (err) {
+    console.error(err);
+    showToast('Error resetting database.', 'error');
+  }
+}
+
+async function executeSQLQuery() {
+  const queryText = document.getElementById('sqlQueryText').value;
+  const resultsCard = document.getElementById('sqlResultsCard');
+  const resultsSummary = document.getElementById('sqlResultsSummary');
+  const resultsTable = document.getElementById('sqlResultsTable');
+
+  if (!queryText.trim()) {
+    showToast('Please type a SQL query.', 'info');
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/db/query`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ sql: queryText })
+    });
+
+    const data = await res.json();
+    resultsCard.style.display = 'block';
+
+    if (data.error) {
+      resultsSummary.innerHTML = `<span style="color: var(--accent-red);">❌ SQL Error: ${data.error}</span>`;
+      resultsTable.innerHTML = '';
+      showToast('SQL Execution Error', 'error');
+      return;
+    }
+
+    resultsSummary.innerHTML = `✅ Query executed successfully. Type: <strong>${data.queryType}</strong>. Rows affected/returned: <strong>${data.rowCount}</strong>.`;
+
+    if (data.rows && data.rows.length > 0) {
+      const headers = Object.keys(data.rows[0]);
+      
+      const headerRow = `<tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+      const bodyRows = data.rows.map(row => `
+        <tr>
+          ${headers.map(h => `<td>${row[h] === null ? '<span style="color: var(--text-muted);">NULL</span>' : row[h]}</td>`).join('')}
+        </tr>
+      `).join('');
+
+      resultsTable.innerHTML = `<thead>${headerRow}</thead><tbody>${bodyRows}</tbody>`;
+    } else {
+      resultsTable.innerHTML = '<tr><td style="text-align: center; color: var(--text-secondary);">Empty set returned.</td></tr>';
+    }
+
+    showToast('SQL executed successfully!', 'success');
+    
+    // Refresh schema browser since queries can change tables/row counts
+    fetchDatabaseSchema();
+    
+    // Reload local data from server in case changes affected current view
+    const authenticated = await verifyAuthToken();
+    if (authenticated) {
+      const [jobsRes, linkedinRes, actionPlanRes] = await Promise.all([
+        fetch(`${API_BASE}/api/jobs`, { headers: getHeaders() }),
+        fetch(`${API_BASE}/api/linkedin`, { headers: getHeaders() }),
+        fetch(`${API_BASE}/api/actionplan`, { headers: getHeaders() })
+      ]);
+      if (jobsRes.ok) trackedJobs = await jobsRes.json();
+      if (linkedinRes.ok) linkedinState = await linkedinRes.json();
+      if (actionPlanRes.ok) actionPlanState = await actionPlanRes.json();
+      renderDashboard();
+      renderKanban();
+      renderLinkedInChecklist();
+      renderActionPlan();
+      updateAllStats();
+    }
+
+  } catch (err) {
+    console.error(err);
+    showToast('Failed to connect to API server.', 'error');
+  }
+}
+
+function clearSQLConsole() {
+  document.getElementById('sqlQueryText').value = '';
+  document.getElementById('sqlResultsCard').style.display = 'none';
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

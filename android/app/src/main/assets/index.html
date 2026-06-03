@@ -51,13 +51,16 @@
         <a href="#photo" class="nav-item" data-section="photo">
           <span class="nav-icon">👤</span><span class="nav-label">Photo Guide</span>
         </a>
+        <a href="#dbconsole" class="nav-item" data-section="dbconsole">
+          <span class="nav-icon">🗄️</span><span class="nav-label">DB Console</span>
+        </a>
       </nav>
 
       <div class="sidebar-profile">
-        <div class="profile-avatar">SR</div>
+        <div class="profile-avatar" onclick="handleLogout()" style="cursor: pointer;" title="Click to Sign Out">SR</div>
         <div class="profile-info">
           <div class="profile-name">S.M. Rahat</div>
-          <div class="profile-role">Asst. Merchandiser</div>
+          <div class="profile-role" onclick="handleLogout()" style="cursor: pointer; color: var(--accent-red);" title="Sign Out">Sign Out 🚪</div>
         </div>
       </div>
     </aside>
@@ -368,6 +371,52 @@
         </div>
       </section>
 
+      <!-- ──── SECTION: Database Console ──── -->
+      <section class="content-section" id="section-dbconsole">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">🗄️ Relational Database Console</span></h2>
+          <p class="section-subtitle">Query and inspect the live SQLite relational database using standard SQL.</p>
+        </div>
+
+        <!-- Database Schema & Stats -->
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 style="color: var(--accent-gold); margin-bottom: 12px;">📊 Live SQLite Tables & Schema</h3>
+          <div id="dbSchemaContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+            <!-- Populated by JS -->
+          </div>
+          <div style="margin-top: 16px; display: flex; gap: 8px;">
+            <button class="btn btn-secondary" onclick="fetchDatabaseSchema()">🔄 Refresh Schema</button>
+            <button class="btn btn-secondary" style="border-color: var(--accent-red); color: var(--accent-red);" onclick="resetDatabaseSchema()">⚠️ Reset Database</button>
+          </div>
+        </div>
+
+        <!-- SQL Query Runner -->
+        <div class="card" style="margin-bottom: 24px;">
+          <h3 style="color: var(--accent-purple); margin-bottom: 8px;">💻 Run SQL Query</h3>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 12px;">
+            Write any SQLite statement (e.g. <code>SELECT * FROM jobs;</code> or <code>SELECT stage, count(*) FROM jobs GROUP BY stage;</code>) and execute it.
+          </p>
+          <div class="form-group">
+            <textarea id="sqlQueryText" class="form-input" rows="4" style="font-family: monospace; font-size: 0.9rem;" placeholder="SELECT * FROM jobs LIMIT 5;"></textarea>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-primary" onclick="executeSQLQuery()">⚡ Execute Query</button>
+            <button class="btn btn-secondary" onclick="clearSQLConsole()">🧹 Clear Console</button>
+          </div>
+        </div>
+
+        <!-- SQL Results Table -->
+        <div class="card" id="sqlResultsCard" style="display: none;">
+          <h3 style="margin-bottom: 12px;">📋 Execution Results</h3>
+          <div id="sqlResultsSummary" style="color: var(--accent-green); font-size: 0.9rem; margin-bottom: 12px;"></div>
+          <div style="overflow-x: auto; max-height: 400px;">
+            <table class="db-table" id="sqlResultsTable" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+              <!-- Populated by JS -->
+            </table>
+          </div>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -425,6 +474,32 @@
           <button type="button" class="btn btn-secondary" onclick="closeAddJobModal()">Cancel</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════ LOGIN MODAL ═══════════════════════ -->
+  <div class="modal-overlay active" id="loginModal">
+    <div class="modal" style="max-width: 400px; padding: 24px; border: 1px solid rgba(148, 163, 184, 0.2); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);">
+      <div style="text-align: center; margin-bottom: 20px;">
+        <span style="font-size: 3rem;">🎯</span>
+        <h2 style="margin-top: 8px;">Career Hub Login</h2>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Sign in to sync with SQLite database</p>
+      </div>
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group" style="text-align: left;">
+          <label for="loginUsername" style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;">Username</label>
+          <input type="text" id="loginUsername" class="form-input" required placeholder="e.g. rahat" value="rahat" style="width: 100%;">
+        </div>
+        <div class="form-group" style="text-align: left; margin-top: 14px;">
+          <label for="loginPassword" style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;">Password</label>
+          <input type="password" id="loginPassword" class="form-input" required placeholder="••••••••" value="careerhub2026" style="width: 100%;">
+        </div>
+        <div id="loginError" style="color: var(--accent-red); margin-top: 10px; font-size: 0.85rem; display: none; text-align: left;"></div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 10px; margin-top: 20px;">Sign In</button>
+      </form>
+      <div style="margin-top: 16px; font-size: 0.8rem; color: var(--text-secondary); text-align: center; border-top: 1px solid rgba(148,163,184,0.1); padding-top: 12px;">
+        💡 Demo credentials: <code style="color: var(--accent-gold); background: rgba(245,158,11,0.1); padding: 2px 4px; border-radius: 4px;">rahat</code> / <code style="color: var(--accent-gold); background: rgba(245,158,11,0.1); padding: 2px 4px; border-radius: 4px;">careerhub2026</code>
+      </div>
     </div>
   </div>
 

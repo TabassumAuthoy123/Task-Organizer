@@ -13,10 +13,10 @@
 |-------|-----------|-----|
 | **Frontend** | HTML5 Semantic, CSS3, Vanilla JS (ES6+) | Zero dependencies, instant load, full control |
 | **Styling** | Custom CSS with CSS Variables, Glassmorphism, CSS Grid/Flexbox | Premium dark theme, responsive, 900+ lines |
-| **State Management** | LocalStorage API | Offline-first, persistent, no backend needed |
-| **Data Layer** | JavaScript modules (1681 lines) | Structured data constants, easily extensible |
-| **Mobile** | Android WebView (APK) | Cross-platform via `android` CLI |
-| **Deployment** | GitHub Pages / Static hosting | Zero-cost, instant CDN |
+| **Backend & API** | Node.js, Express.js | Industry-level REST API, secure endpoint design |
+| **Database** | SQLite3 (Relational DB) | SQL schema, easy migration, lightweight, file-based |
+| **Auth** | JWT (JSON Web Tokens), BCrypt.js | Production-ready user authentication and hashing |
+| **Mobile** | Android WebView (Kotlin, Gradle, JVM) | Wrapper app pointing to local backend loopback |
 | **AI/ML** | Fabric fault detection model (CNN, Python, TensorFlow) | Showcases AI integration capability |
 
 ### Design Patterns Used
@@ -46,23 +46,39 @@
 
 ## 🚀 Quick Start
 
-### Web (No Build Required)
-```bash
-# Clone the repo
-git clone https://github.com/TabassumAuthoy123/Task-Organizer.git
-cd Task-Organizer
+### Full-Stack Server & Web App (Recommended)
+This application includes a Node.js + Express backend with a SQLite database. Follow these steps to run the full-stack server locally:
 
-# Open in browser — that's it!
-start index.html  # Windows
-open index.html   # macOS
-xdg-open index.html  # Linux
-```
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-### Android APK
-```bash
-# Install APK on connected device
-adb install android/app-debug.apk
-```
+2. **Initialize/Reset Database**:
+   ```bash
+   npm run setup
+   ```
+   *(This creates the `database.sqlite` file and seeds the default user).*
+
+3. **Start the Server**:
+   ```bash
+   npm start
+   ```
+   *(The server will run on `http://localhost:3000`)*.
+
+4. **Access the App**:
+   Open your browser and navigate to `http://localhost:3000`. You will be prompted to login.
+   - **Username**: `rahat`
+   - **Password**: `careerhub2026`
+
+### Mobile App (Android APK)
+The Android app is pre-configured to communicate with the local Node.js server.
+1. Download the pre-compiled APK from [releases/task-organizer.apk](releases/task-organizer.apk).
+2. Install it on your Android Emulator or connected physical device:
+   ```bash
+   adb install releases/task-organizer.apk
+   ```
+   *(Note: The Android app points to the emulator loopback `http://10.0.2.2:3000`. Make sure your local Express server is running when testing in the emulator).*
 
 ---
 
