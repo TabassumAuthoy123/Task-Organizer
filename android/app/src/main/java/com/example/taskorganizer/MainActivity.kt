@@ -17,6 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         
         webView = WebView(this)
+        webView.setBackgroundColor(android.graphics.Color.parseColor("#0a0e27"))
         
         // Configure WebView settings
         webView.settings.apply {
