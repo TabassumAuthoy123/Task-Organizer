@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rahat Career Hub — All-in-one career dashboard for apparel merchandisers in Bangladesh. Job tracker, interview prep, salary guide, and more.">
+  <title>Rahat Career Hub — Merchandiser Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <span class="logo-icon">🎯</span>
+        <h1 class="logo-text">Rahat<span class="logo-accent">Hub</span></h1>
+        <p class="logo-sub">Career Launch System</p>
+      </div>
+
+      <nav class="sidebar-nav" id="sidebarNav">
+        <a href="#dashboard" class="nav-item active" data-section="dashboard">
+          <span class="nav-icon">🏠</span><span class="nav-label">Dashboard</span>
+        </a>
+        <a href="#tracker" class="nav-item" data-section="tracker">
+          <span class="nav-icon">📋</span><span class="nav-label">Job Tracker</span>
+        </a>
+        <a href="#links" class="nav-item" data-section="links">
+          <span class="nav-icon">🔗</span><span class="nav-label">Direct Links</span>
+        </a>
+        <a href="#linkedin" class="nav-item" data-section="linkedin">
+          <span class="nav-icon">✅</span><span class="nav-label">LinkedIn Guide</span>
+        </a>
+        <a href="#interview" class="nav-item" data-section="interview">
+          <span class="nav-icon">💼</span><span class="nav-label">Interview Prep</span>
+        </a>
+        <a href="#documents" class="nav-item" data-section="documents">
+          <span class="nav-icon">📄</span><span class="nav-label">CV & Resume</span>
+        </a>
+        <a href="#salary" class="nav-item" data-section="salary">
+          <span class="nav-icon">📊</span><span class="nav-label">Salary Guide</span>
+        </a>
+        <a href="#messages" class="nav-item" data-section="messages">
+          <span class="nav-icon">📩</span><span class="nav-label">Cold Messages</span>
+        </a>
+        <a href="#actionplan" class="nav-item" data-section="actionplan">
+          <span class="nav-icon">🗓️</span><span class="nav-label">4-Week Plan</span>
+        </a>
+        <a href="#photo" class="nav-item" data-section="photo">
+          <span class="nav-icon">👤</span><span class="nav-label">Photo Guide</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-profile">
+        <div class="profile-avatar">SR</div>
+        <div class="profile-info">
+          <div class="profile-name">S.M. Rahat</div>
+          <div class="profile-role">Asst. Merchandiser</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile hamburger -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ═══════════════════════ MAIN CONTENT ═══════════════════════ -->
+    <main class="main-content" id="mainContent">
+
+      <!-- ──── SECTION: Dashboard ──── -->
+      <section class="content-section active" id="section-dashboard">
+        <div class="section-header">
+          <h2 class="section-title">Welcome back, <span class="gradient-text">Rahat</span> 👋</h2>
+          <p class="section-subtitle">Your career launch mission control. Let's land that Merchandiser role.</p>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="stats-grid" id="dashboardStats">
+          <div class="stat-card">
+            <div class="stat-value gradient-text" id="stat-saved">0</div>
+            <div class="stat-label">Saved Jobs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--accent-purple)" id="stat-applied">0</div>
+            <div class="stat-label">Applied</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--accent-gold)" id="stat-interview">0</div>
+            <div class="stat-label">Interviews</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--accent-green)" id="stat-offers">0</div>
+            <div class="stat-label">Offers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--accent-green)" id="stat-linkedin">0%</div>
+            <div class="stat-label">LinkedIn Done</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" style="color: var(--accent-gold)" id="stat-plan">0%</div>
+            <div class="stat-label">Action Plan</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="section-header" style="margin-top: 32px;">
+          <h3 class="section-title" style="font-size: 1.25rem;">⚡ Quick Actions</h3>
+        </div>
+        <div class="quick-actions">
+          <button class="btn btn-primary" onclick="navigateTo('tracker')">📋 Add Job to Tracker</button>
+          <button class="btn btn-secondary" onclick="navigateTo('links')">🔗 Browse Job Portals</button>
+          <button class="btn btn-secondary" onclick="navigateTo('linkedin')">✅ LinkedIn Checklist</button>
+          <button class="btn btn-secondary" onclick="navigateTo('interview')">💼 Practice Interview</button>
+          <button class="btn btn-success" onclick="navigateTo('documents')">📄 View CV/Resume</button>
+        </div>
+
+        <!-- Live Jobs Preview -->
+        <div class="section-header" style="margin-top: 32px;">
+          <h3 class="section-title" style="font-size: 1.25rem;">🔥 Hot Jobs — June 2026</h3>
+          <p class="section-subtitle">Top matches from DhakaCareers, scraped June 2</p>
+        </div>
+        <div class="cards-grid" id="hotJobsGrid">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Job Tracker (Kanban) ──── -->
+      <section class="content-section" id="section-tracker">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">📋 Job Tracker</span></h2>
+          <p class="section-subtitle">Drag jobs between stages. Data saves to your browser automatically.</p>
+        </div>
+        <div style="margin-bottom: 16px;">
+          <button class="btn btn-primary" id="addJobBtn" onclick="openAddJobModal()">+ Add New Job</button>
+          <button class="btn btn-secondary" onclick="exportTrackerCSV()">📥 Export CSV</button>
+          <button class="btn btn-secondary" onclick="importLiveJobs()">📂 Import Live Jobs</button>
+        </div>
+        <div class="kanban-board" id="kanbanBoard">
+          <div class="kanban-column" data-stage="saved" id="col-saved">
+            <div class="kanban-header">
+              <h3>💾 Saved <span class="count-badge" id="count-saved">0</span></h3>
+            </div>
+            <div class="kanban-cards" id="cards-saved"></div>
+          </div>
+          <div class="kanban-column" data-stage="applied" id="col-applied">
+            <div class="kanban-header">
+              <h3>📨 Applied <span class="count-badge" id="count-applied">0</span></h3>
+            </div>
+            <div class="kanban-cards" id="cards-applied"></div>
+          </div>
+          <div class="kanban-column" data-stage="interview" id="col-interview">
+            <div class="kanban-header">
+              <h3>🎤 Interview <span class="count-badge" id="count-interview">0</span></h3>
+            </div>
+            <div class="kanban-cards" id="cards-interview"></div>
+          </div>
+          <div class="kanban-column" data-stage="offer" id="col-offer">
+            <div class="kanban-header">
+              <h3>🎉 Offer <span class="count-badge" id="count-offer">0</span></h3>
+            </div>
+            <div class="kanban-cards" id="cards-offer"></div>
+          </div>
+          <div class="kanban-column" data-stage="rejected" id="col-rejected">
+            <div class="kanban-header">
+              <h3>❌ Rejected <span class="count-badge" id="count-rejected">0</span></h3>
+            </div>
+            <div class="kanban-cards" id="cards-rejected"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Direct Links Hub ──── -->
+      <section class="content-section" id="section-links">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">🔗 Direct Links Hub</span></h2>
+          <p class="section-subtitle">All your job search resources in one place. Click to open.</p>
+        </div>
+
+        <div class="search-filter-bar">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="linkSearch" placeholder="Search portals, groups, companies..." oninput="filterLinks(this.value)">
+          </div>
+        </div>
+
+        <!-- Job Portals -->
+        <h3 class="subsection-title">🌐 Job Portals</h3>
+        <div class="cards-grid" id="portalsGrid"></div>
+
+        <!-- Facebook Groups -->
+        <h3 class="subsection-title" style="margin-top: 24px;">👥 Facebook Groups</h3>
+        <div class="cards-grid" id="fbGroupsGrid"></div>
+
+        <!-- LinkedIn Recruiter Search -->
+        <h3 class="subsection-title" style="margin-top: 24px;">🎯 LinkedIn Recruiter Search</h3>
+        <div class="cards-grid" id="recruiterGrid"></div>
+
+        <!-- Company Career Pages -->
+        <h3 class="subsection-title" style="margin-top: 24px;">🏢 Company Career Pages</h3>
+        <div class="cards-grid" id="companyGrid"></div>
+      </section>
+
+      <!-- ──── SECTION: LinkedIn Guide ──── -->
+      <section class="content-section" id="section-linkedin">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">✅ LinkedIn Optimization</span></h2>
+          <p class="section-subtitle">Complete each step to maximize recruiter visibility. Progress saves automatically.</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="linkedinProgress" style="width: 0%;"></div>
+          </div>
+          <span class="progress-text" id="linkedinProgressText">0/11 Complete</span>
+        </div>
+
+        <div class="checklist" id="linkedinChecklist">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Interview Prep ──── -->
+      <section class="content-section" id="section-interview">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">💼 Interview Prep</span></h2>
+          <p class="section-subtitle">35 real merchandiser interview questions with detailed answers and tips.</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="tabs" id="interviewTabs">
+          <button class="tab active" data-category="all" onclick="filterQuestions('all')">All (35)</button>
+          <button class="tab" data-category="General & Behavioral" onclick="filterQuestions('General & Behavioral')">General (10)</button>
+          <button class="tab" data-category="Technical - Costing & Commercial" onclick="filterQuestions('Technical - Costing & Commercial')">Costing (8)</button>
+          <button class="tab" data-category="Technical - Sampling & Production" onclick="filterQuestions('Technical - Sampling & Production')">Sampling (7)</button>
+          <button class="tab" data-category="Technical - Fabric & Quality" onclick="filterQuestions('Technical - Fabric & Quality')">Fabric (5)</button>
+          <button class="tab" data-category="Buying House Specific" onclick="filterQuestions('Buying House Specific')">Buying House (5)</button>
+        </div>
+
+        <div class="search-filter-bar" style="margin-top: 12px;">
+          <div class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="qaSearch" placeholder="Search questions..." oninput="searchQuestions(this.value)">
+          </div>
+        </div>
+
+        <div class="qa-section" id="qaSection">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: CV & Resume ──── -->
+      <section class="content-section" id="section-documents">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">📄 CV & Resume</span></h2>
+          <p class="section-subtitle">Professional documents ready for download. Open, print to PDF, done.</p>
+        </div>
+
+        <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+          <div class="card">
+            <div style="font-size: 3rem; text-align: center; margin-bottom: 12px;">📃</div>
+            <h3 style="text-align: center; margin-bottom: 8px;">1-Page ATS Resume</h3>
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 16px; font-size: 0.9rem;">
+              Clean, single-column, no photo. Optimized for ATS (Applicant Tracking Systems). Best for online applications.
+            </p>
+            <div style="display: flex; gap: 8px; justify-content: center;">
+              <a href="docs/resume.html" target="_blank" class="btn btn-primary">🔗 Open Resume</a>
+              <button class="btn btn-secondary" onclick="printDocument('docs/resume.html')">🖨️ Print to PDF</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="font-size: 3rem; text-align: center; margin-bottom: 12px;">📋</div>
+            <h3 style="text-align: center; margin-bottom: 8px;">2-Page Professional CV</h3>
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 16px; font-size: 0.9rem;">
+              Sidebar design with photo placeholder. Comprehensive 2-page format. Best for direct applications and interviews.
+            </p>
+            <div style="display: flex; gap: 8px; justify-content: center;">
+              <a href="docs/cv.html" target="_blank" class="btn btn-success">🔗 Open CV</a>
+              <button class="btn btn-secondary" onclick="printDocument('docs/cv.html')">🖨️ Print to PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-banner" style="margin-top: 24px;">
+          <h4>📝 How to Save as PDF</h4>
+          <p>1. Click "Open Resume" or "Open CV" → 2. Press <kbd>Ctrl+P</kbd> → 3. Set Destination to "Save as PDF" → 4. Click Save.</p>
+          <p style="margin-top: 8px;">⚠️ Replace <code>[Your Phone]</code> and <code>[Your Email]</code> placeholders in the HTML files before printing.</p>
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Salary Guide ──── -->
+      <section class="content-section" id="section-salary">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">📊 Salary Guide</span></h2>
+          <p class="section-subtitle">Market benchmarks for Dhaka buying houses. Data from June 2026.</p>
+        </div>
+
+        <!-- Your Target -->
+        <div class="card" style="border-left: 4px solid var(--accent-green); margin-bottom: 24px;">
+          <h3 style="color: var(--accent-green); margin-bottom: 8px;">🎯 Your Target Range</h3>
+          <div style="display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+            <div>
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent-green);" id="targetSalary">৳65,000 — ৳100,000</div>
+              <div style="color: var(--text-secondary);">Ideal: ৳80,000/month</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Benchmark Bars -->
+        <h3 class="subsection-title">📈 Market Benchmarks (BDT/month)</h3>
+        <div class="salary-section" id="salaryBenchmarks">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Negotiation Tips -->
+        <h3 class="subsection-title" style="margin-top: 24px;">💡 Negotiation Tips</h3>
+        <div class="cards-grid" id="salaryTips">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Cold Messages ──── -->
+      <section class="content-section" id="section-messages">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">📩 Cold Message Templates</span></h2>
+          <p class="section-subtitle">Copy-paste ready. Replace [highlighted parts] with your specifics.</p>
+        </div>
+
+        <div id="messagesContainer">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: 4-Week Action Plan ──── -->
+      <section class="content-section" id="section-actionplan">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">🗓️ 4-Week Action Plan</span></h2>
+          <p class="section-subtitle">Your daily roadmap to landing the job. Check off tasks as you complete them.</p>
+        </div>
+
+        <!-- Overall Progress -->
+        <div class="progress-container" style="margin-bottom: 24px;">
+          <div class="progress-bar">
+            <div class="progress-fill" id="actionPlanProgress" style="width: 0%;"></div>
+          </div>
+          <span class="progress-text" id="actionPlanProgressText">0/108 Tasks Complete</span>
+        </div>
+
+        <div class="timeline" id="actionPlanTimeline">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+      <!-- ──── SECTION: Profile Photo Guide ──── -->
+      <section class="content-section" id="section-photo">
+        <div class="section-header">
+          <h2 class="section-title"><span class="gradient-text">👤 Profile Photo Guide</span></h2>
+          <p class="section-subtitle">Your LinkedIn photo is your first impression. Make it count.</p>
+        </div>
+
+        <div id="photoGuideContainer">
+          <!-- Populated by JS -->
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ═══════════════════════ ADD JOB MODAL ═══════════════════════ -->
+  <div class="modal-overlay" id="addJobModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Add New Job</h3>
+        <button class="modal-close" onclick="closeAddJobModal()">&times;</button>
+      </div>
+      <form id="addJobForm" onsubmit="handleAddJob(event)">
+        <div class="form-group">
+          <label for="jobTitle">Job Title *</label>
+          <input type="text" id="jobTitle" class="form-input" required placeholder="e.g., Merchandiser">
+        </div>
+        <div class="form-group">
+          <label for="jobCompany">Company *</label>
+          <input type="text" id="jobCompany" class="form-input" required placeholder="e.g., DEKKO Legacy Group">
+        </div>
+        <div class="form-group">
+          <label for="jobLocation">Location</label>
+          <input type="text" id="jobLocation" class="form-input" placeholder="e.g., Gulshan, Dhaka">
+        </div>
+        <div class="form-group">
+          <label for="jobSalary">Salary Range</label>
+          <input type="text" id="jobSalary" class="form-input" placeholder="e.g., 65,000 - 80,000">
+        </div>
+        <div class="form-group">
+          <label for="jobUrl">Job URL</label>
+          <input type="url" id="jobUrl" class="form-input" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label for="jobSource">Source</label>
+          <input type="text" id="jobSource" class="form-input" placeholder="e.g., DhakaCareers, LinkedIn, Referral">
+        </div>
+        <div class="form-group">
+          <label for="jobDeadline">Application Deadline</label>
+          <input type="date" id="jobDeadline" class="form-input">
+        </div>
+        <div class="form-group">
+          <label for="jobNotes">Notes</label>
+          <textarea id="jobNotes" class="form-input" rows="3" placeholder="Any notes about this opportunity..."></textarea>
+        </div>
+        <div class="form-group">
+          <label for="jobStage">Initial Stage</label>
+          <select id="jobStage" class="form-input">
+            <option value="saved">💾 Saved</option>
+            <option value="applied">📨 Applied</option>
+            <option value="interview">🎤 Interview</option>
+            <option value="offer">🎉 Offer</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save Job</button>
+          <button type="button" class="btn btn-secondary" onclick="closeAddJobModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Scripts -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

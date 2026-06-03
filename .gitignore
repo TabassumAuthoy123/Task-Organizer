@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.gradle/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Android build outputs (keep APKs in releases)
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# Compiled
+*.class
+*.dex
+*.apk
+!releases/*.apk
