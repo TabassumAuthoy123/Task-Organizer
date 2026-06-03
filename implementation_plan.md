@@ -35,6 +35,47 @@ Node.js + Express API server exposing endpoints:
 
 ---
 
+### Database Schema Design
+
+The file-based SQLite database (`database.sqlite`) contains four tables organized as follows:
+
+#### 1. `users` Table
+Stores system user accounts with hashed credentials.
+- `id` (INTEGER PRIMARY KEY AUTOINCREMENT)
+- `username` (TEXT UNIQUE NOT NULL)
+- `password` (TEXT NOT NULL) — hashed with bcryptjs (salt rounds = 10)
+
+#### 2. `jobs` Table
+Stores job tracking entries for the Kanban Board.
+- `id` (TEXT PRIMARY KEY) — unique client-generated UUID
+- `title` (TEXT NOT NULL) — job position name
+- `company` (TEXT NOT NULL) — employer organization name
+- `location` (TEXT) — job location
+- `salary` (TEXT) — salary details
+- `url` (TEXT) — listing source URL
+- `source` (TEXT) — website or channel name
+- `deadline` (TEXT) — application deadline date
+- `notes` (TEXT) — candidate notes
+- `stage` (TEXT NOT NULL) — current Kanban stage (`saved`, `applied`, `interview`, `offer`, `rejected`)
+- `user_id` (INTEGER, FOREIGN KEY referencing `users(id)`)
+- `created_at` (TEXT) — record creation timestamp
+
+#### 3. `linkedin_checklist` Table
+Tracks checked state of LinkedIn profile items.
+- `item_id` (TEXT NOT NULL) — key of the checklist item matching `data.js`
+- `user_id` (INTEGER NOT NULL, FOREIGN KEY referencing `users(id)`)
+- `done` (INTEGER DEFAULT 0) — binary checked status (1 = done, 0 = active)
+- Primary Key: `(item_id, user_id)`
+
+#### 4. `action_plan` Table
+Tracks task checklist progress for the 4-week preparation plan.
+- `task_key` (TEXT NOT NULL) — composite key identifying week and task number
+- `user_id` (INTEGER NOT NULL, FOREIGN KEY referencing `users(id)`)
+- `done` (INTEGER DEFAULT 0) — binary checked status (1 = done, 0 = active)
+- Primary Key: `(task_key, user_id)`
+
+---
+
 ### Frontend Component
 We will update the frontend files in `E:\Task-organizer` to communicate with the backend.
 

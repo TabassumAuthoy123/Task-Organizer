@@ -81,6 +81,42 @@ This application is designed specifically to showcase your knowledge as an **ind
 
 ---
 
+## 👔 S.M. Rahat's Merchandising Experience & Interview Responses
+
+This section contains Rahat's core technical experience, structured specifically for interviews with buying offices, liaison offices, or sourcing offices in Dhaka.
+
+### 1. Product Development & Sample Management
+* **How Rahat explains sample lifecycle**:
+  > *"I manage sample development in two critical phases across 35–40 styles per season. The first phase includes developing initial **Buying Samples** based on tech packs and executing **Revised Buying Samples** dynamically as buyers modify styles mid-season. The second phase involves securing **Contract Seal Samples** for all confirmed orders, which serves as the mandatory fit approvals before bulk production. Managing these ensures that we catch style defects early and prevent bulk wastage."*
+* **Design Revisions & Tech Packs**:
+  > *"Design modifications are regular. Buyers frequently change prints, embroidery artworks, fit blocks, or entire constructions even after order confirmation. I translate these updates into actionable sample directives, ensuring our team acts on revised specs immediately."*
+
+### 2. Cost Engineering & Sourcing Operations
+* **ALGOERP & Cost Sheets**:
+  > *"While initial costing is handled during order confirmation by the Product Development (PD) team, I create and manage the precise cost sheets, size grading, and specification sheets directly on the **ALGOERP system**. This data forms the baseline for generating accurate fabric and trims bookings."*
+* **Cross-Border Fabric & Trim Sourcing**:
+  > *"I source high-quality knit fabrics from Chinese suppliers such as **HUBO, FairTex, and Siris**. For our woven pajamas and bottoms under the Marks & Spencer Nightwear account, I outsource fabrics from India and **Paramount (BD)**, managing relationships with over 15 suppliers to maintain quality compliance."*
+
+### 3. Commercial Negotiating & Lead-Time Balancing
+* **Upcharge and Budget Management**:
+  > *"When buyers request mid-season design changes that require an upcharge but demand they remain within the initial budget, I manage this by negotiating price reductions with our print and embroidery vendors. I also audit and re-balance component costs across other garment areas, preserving the factory's profit margins without compromising quality."*
+* **Timeline Optimization**:
+  > *"Design changes impact lead times. To keep shipments on schedule, I coordinate with in-house fabric planning, outsourced suppliers, accessories vendors, and our sampling department to optimize timelines. This synchronized approach has consistently helped us avoid expensive air shipments."*
+
+### 4. Problem Solving & Crisis Resolution
+* **Handling Late Fabric and Color Changes**:
+  > *"If a buyer changes a fabric type or color at the last minute, it can halt production. I resolve this by working with the fabric department to arrange alternative fabrics from other styles or using greige fabric to meet immediate needs, redirecting the unused fabric to future orders."*
+* **Supplier Delays**:
+  > *"When external trims or accessories suppliers delay delivery, I work closely with the liaison merchandisers to manage timeline extensions and prevent production bottlenecks."*
+* **Technical Communication on Fit Issues**:
+  > *"When the sample department flags critical fit issues, I bridge the gap by explaining technical constraints to the buyer and suggesting feasible alternatives that align with their design intent."*
+
+### 5. Technical Proficiencies
+* **FLEXPLM**: Marks & Spencer's dedicated Product Lifecycle Management system. Handled daily for tech-pack analysis, sample tracking, and communications.
+* **ALGOERP**: Factory-wide ERP software used for fabric bookings, material requisitions, and final order sheets.
+
+---
+
 ## 📱 Running and Testing the Project
 
 1. **Start the local Node backend**:
